@@ -2,9 +2,6 @@
 
 This repository contains some of my personal dotfiles. Feel free to use them as inspiration to build your own setup from these files.
 
-**Warning**: Use at your own risk! Make sure to always backup your current config files.
-
-
 ## Contents
 
 - neovim config
@@ -12,6 +9,9 @@ This repository contains some of my personal dotfiles. Feel free to use them as 
 - fish config
 - tmux
 - hyprland
+- wofi
+- waybar
+- kitty terminal
 
 ## Neovim setup
 
@@ -23,10 +23,10 @@ This repository contains some of my personal dotfiles. Feel free to use them as 
 - for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) **_(optional)_**
   - **live grep**: [ripgrep](https://github.com/BurntSushi/ripgrep)
   - **find files**: [fd](https://github.com/sharkdp/fd)
+- Hyprland
 
 
 ### Fish
-
 
 - [Fish shell](https://fishshell.com/)
 - [Fisher](https://github.com/jorgebucaran/fisher) - Plugin manager
