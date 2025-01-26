@@ -18,4 +18,9 @@ set -g tide_git_staged_color 000000
 set -g tide_git_stash_color 000000
 set -g tide_git_untracked_color 000000
 set -g tide_git_upstream_color 000000
-set -g tide_pwd_bg_color 444444
+set -g tide_pwd_bg_color 51576D
+set -g tide_pwd_color 51576D
+set -g tide_pwd_color_dirs ACB0BE 
+set -g wide_pwd_color_anchors brwhite
+set -g tide_os_color FFFFFF
+set -g tide_os_bg_color 9CA0B0
