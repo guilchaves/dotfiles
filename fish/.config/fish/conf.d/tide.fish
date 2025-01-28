@@ -1,6 +1,6 @@
-set -g tide_git_bg_color 268bd2
-set -g tide_git_bg_color_unstable C4A000
-set -g tide_git_bg_color_urgent CC0000
+set -g tide_git_bg_color 7287FD
+set -g tide_git_bg_color_unstable E5C890 
+set -g tide_git_bg_color_urgent D20F39 
 set -g tide_git_branch_color 000000
 set -g tide_git_color_branch 000000
 set -g tide_git_color_conflicted 000000
@@ -24,3 +24,4 @@ set -g tide_pwd_color_dirs ACB0BE
 set -g wide_pwd_color_anchors brwhite
 set -g tide_os_color FFFFFF
 set -g tide_os_bg_color 9CA0B0
+set -g tide_os_icon 
