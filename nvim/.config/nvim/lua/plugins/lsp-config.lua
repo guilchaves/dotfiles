@@ -172,6 +172,8 @@ return {
                     gopls = {
                         completeUnimported = true,
                         usePlaceholders = true,
+                        deepCompletion = true,
+                        linkTarget = "gopls",
                         analyses = {
                             unusedparams = true,
                         },
