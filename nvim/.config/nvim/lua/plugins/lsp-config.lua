@@ -176,7 +176,9 @@ return {
                         linkTarget = "gopls",
                         analyses = {
                             unusedparams = true,
+                            useany = true,
                         },
+                        staticcheck = true,
                         hints = {
                             assignVariableTypes = true,
                             compositeLiteralFields = true,
