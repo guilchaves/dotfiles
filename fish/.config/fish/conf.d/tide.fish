@@ -25,3 +25,5 @@ set -g wide_pwd_color_anchors brwhite
 set -g tide_os_color FFFFFF
 set -g tide_os_bg_color 9CA0B0
 set -g tide_os_icon 
+set -g tide_time_bg_color DCE0E8
+set -g tide_status_bg_color 303446
