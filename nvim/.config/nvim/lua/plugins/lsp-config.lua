@@ -190,6 +190,14 @@ return {
                         },
                     },
                 },
+                on_attach = function(_, bufnr)
+                    vim.keymap.set('n', '<leader>fs', function()
+                        vim.lsp.buf.code_action({
+                            context = { only = { 'refactor.rewrite' } },
+                            apply = true,
+                        })
+                    end, { buffer = bufnr, desc = 'Fill struct' })
+                end,
             })
             lspconfig.emmet_language_server.setup({
                 filetypes = {
