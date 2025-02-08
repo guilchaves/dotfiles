@@ -2,6 +2,7 @@ require("guilchaves.set")
 require("guilchaves.keymaps")
 require("guilchaves.macros")
 require("guilchaves.helpers")
+require("guilchaves.go_macros")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
