@@ -18,10 +18,6 @@ set -gx EDITOR nvim
 
 source ~/.asdf/asdf.fish
 
-# Set GOPATH (default is ~/go)
-set -x GOPATH $HOME/go
-set -x PATH=$PATH:$GOROOT/bin:$GOPATH/bin
-
 # Add Go binaries and GOPATH/bin to PATH
 fish_add_path /home/guilherme/go/bin
 fish_add_path $GOPATH/bin
