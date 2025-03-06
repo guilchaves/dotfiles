@@ -177,6 +177,7 @@ return {
                         analyses = {
                             unusedparams = true,
                             useany = true,
+                            fillstruct = true,
                         },
                         staticcheck = true,
                         hints = {
