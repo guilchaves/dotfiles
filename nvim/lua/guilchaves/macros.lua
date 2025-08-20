@@ -24,5 +24,4 @@ function M.insert_quack()
 	vim.api.nvim_win_set_cursor(0, { row + 1, col + #'🦆 quack quack!' })
 end
 
-
 return M

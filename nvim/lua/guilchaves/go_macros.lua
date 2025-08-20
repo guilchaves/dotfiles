@@ -4,9 +4,9 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.keymap.set("n", "<leader>er", function()
       vim.api.nvim_put({
-        "if err != nil {",
-        "    panic(err)",
-        "}",
+        "  if err != nil {",
+        "    return",
+        "  }",
       }, "l", true, true)
     end, { desc = "Insert Go error check", buffer = true })
   end,

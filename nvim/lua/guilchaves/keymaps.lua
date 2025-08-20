@@ -67,3 +67,10 @@ keymap.set("n", "<leader>f", lsp.buf.format)
 -- Rename all occurences of word
 keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+-- Organize imports on TS
+vim.keymap.set("n", "<leader>oi", function()
+  vim.lsp.buf.code_action({ 
+    context = { only = { "source.organizeImports.ts" } },
+    apply = true
+  })
+end, { desc = "Organize Imports" })

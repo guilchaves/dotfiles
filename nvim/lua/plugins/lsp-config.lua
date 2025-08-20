@@ -18,11 +18,12 @@ return {
                     "rust_analyzer",
                     "tailwindcss",
                     "elixirls",
-                    "tsserver",
+                    "ts_ls",
                     "htmx",
                     "templ",
                     "gopls",
                     "emmet_language_server",
+                    "angularls",
                 },
             })
         end,
@@ -34,28 +35,42 @@ return {
             local lspconfig = require("lspconfig")
             local util = require("lspconfig/util")
             local _border = "single"
-            local ok, mason_registry = pcall(require, "mason-registry")
-            local project_library_path = mason_registry.get_package("angular-language-server"):get_install_path()
 
-            if not ok then
-                vim.notify("mason-registry could not be loaded")
-                return
+            local on_attach = function(client, bufnr)
             end
 
-            local cmd = {
-                "ngserver",
-                "--stdio",
-                "--tsProbeLocations",
-                table.concat({
-                    project_library_path,
-                    vim.uv.cwd(),
-                }, ","),
-                "--ngProbeLocations",
-                table.concat({
-                    project_library_path .. "/node_modules/@angular/language-server",
-                    vim.uv.cwd(),
-                }, ","),
-            }
+            local ok, mason_registry = pcall(require, "mason-registry")
+            local angularls_cmd = { "ngserver", "--stdio" }
+
+            if ok then
+                local success, pkg = pcall(mason_registry.get_package, mason_registry, "angular-language-server")
+                if success and pkg then
+                    -- Tenta usar get_install_path() se existir, senão usa install_path
+                    local install_path = nil
+                    if type(pkg.get_install_path) == "function" then
+                        install_path = pkg:get_install_path()
+                    elseif pkg.install_path then
+                        install_path = pkg.install_path
+                    end
+
+                    if install_path then
+                        angularls_cmd = {
+                            "ngserver",
+                            "--stdio",
+                            "--tsProbeLocations",
+                            table.concat({
+                                install_path,
+                                vim.uv.cwd(),
+                            }, ","),
+                            "--ngProbeLocations",
+                            table.concat({
+                                install_path .. "/node_modules/@angular/language-server",
+                                vim.uv.cwd(),
+                            }, ","),
+                        }
+                    end
+                end
+            end
 
             vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
                 border = _border,
@@ -68,22 +83,27 @@ return {
             vim.diagnostic.config({
                 float = { border = _border },
             })
+
             lspconfig.lua_ls.setup({
                 capabilities = capabilities,
             })
+
             lspconfig.rust_analyzer.setup({
                 capabilities = capabilities,
             })
+
             lspconfig.elixirls.setup({
                 capabilities = capabilities,
                 cmd = { vim.fn.expand("~/.bin/elixir-ls/language_server.sh") },
             })
+
             lspconfig.tailwindcss.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "templ", "javascript", "typescript", "typescriptreact", "javascriptreact" },
                 init_options = { userLanguages = { templ = "html" } },
             })
+
             lspconfig.templ.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
@@ -98,7 +118,6 @@ return {
 
                     vim.fn.jobstart(cmd, {
                         on_exit = function()
-                            -- Reload the buffer only if it's still the current buffer
                             if vim.api.nvim_get_current_buf() == bufnr then
                                 vim.cmd("e!")
                             end
@@ -106,6 +125,7 @@ return {
                     })
                 end
             })
+
             lspconfig.htmx.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
@@ -113,14 +133,16 @@ return {
                     "html",
                 },
             })
+
             lspconfig.angularls.setup({
-                cmd = cmd,
+                cmd = angularls_cmd,
+                capabilities = capabilities,
                 on_new_config = function(new_config, new_root_dir)
-                    new_config.cmd = cmd
+                    new_config.cmd = angularls_cmd
                 end,
             })
 
-            lspconfig.tsserver.setup({
+            lspconfig.ts_ls.setup({
                 capabilities = capabilities,
                 filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
                 cmd = { "typescript-language-server", "--stdio" },
@@ -158,6 +180,7 @@ return {
                     },
                 },
             })
+
             lspconfig.gopls.setup({
                 capabilities = capabilities,
                 cmd = { "gopls" },
@@ -200,6 +223,7 @@ return {
                     end, { buffer = bufnr, desc = 'Fill struct' })
                 end,
             })
+
             lspconfig.emmet_language_server.setup({
                 filetypes = {
                     "css",
