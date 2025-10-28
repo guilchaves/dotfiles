@@ -68,9 +68,14 @@ keymap.set("n", "<leader>f", lsp.buf.format)
 keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- Organize imports on TS
-vim.keymap.set("n", "<leader>oi", function()
-  vim.lsp.buf.code_action({ 
-    context = { only = { "source.organizeImports.ts" } },
-    apply = true
-  })
+keymap.set("n", "<leader>oi", function()
+	vim.lsp.buf.code_action({
+		context = { only = { "source.organizeImports.ts" } },
+		apply = true,
+	})
 end, { desc = "Organize Imports" })
+
+-- Show code actions
+keymap.set({ "n", "x" }, "<leader>ca", function()
+	require("tiny-code-action").code_action()
+end, { noremap = true, silent = true })
