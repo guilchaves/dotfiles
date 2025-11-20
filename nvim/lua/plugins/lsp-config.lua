@@ -24,7 +24,6 @@ return {
 					"templ",
 					"gopls",
 					"emmet_language_server",
-					"angularls",
 					"eslint",
 					"html",
 				},
@@ -193,7 +192,7 @@ return {
 			-- angularls
 			vim.lsp.config("angularls", {
 				cmd = angularls_cmd,
-				filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" },
+				filetypes = { "typescript", "html" },
 				root_markers = { "angular.json", "project.json", ".git" },
 				capabilities = capabilities,
 				on_new_config = function(new_config, new_root_dir)
