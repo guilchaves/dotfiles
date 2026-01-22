@@ -40,7 +40,7 @@ return {
 			local on_attach = function(client, bufnr) end
 
 			local ok, mason_registry = pcall(require, "mason-registry")
-			local angularls_cmd = { "ngserver", "--stdio" }
+			-- local angularls_cmd = { "ngserver", "--stdio" }
 
 			if ok then
 				local success, pkg = pcall(mason_registry.get_package, mason_registry, "angular-language-server")
@@ -189,18 +189,19 @@ return {
 			})
 			vim.lsp.enable("html")
 
-			-- angularls
-			vim.lsp.config("angularls", {
-				cmd = angularls_cmd,
-				filetypes = { "typescript", "html" },
-				root_markers = { "angular.json", "project.json", ".git" },
-				capabilities = capabilities,
-				on_new_config = function(new_config, new_root_dir)
-					new_config.cmd = angularls_cmd
-				end,
-			})
-			vim.lsp.enable("angularls")
+			-- -- angularls
+			-- vim.lsp.config("angularls", {
+			-- 	cmd = angularls_cmd,
+			-- 	filetypes = { "typescript", "html" },
+			-- 	root_markers = { "angular.json", "project.json", ".git" },
+			-- 	capabilities = capabilities,
+			-- 	on_new_config = function(new_config, new_root_dir)
+			-- 		new_config.cmd = angularls_cmd
+			-- 	end,
+			-- })
+			-- vim.lsp.enable("angularls")
 
+			-- ts_ls
 			-- ts_ls
 			vim.lsp.config("ts_ls", {
 				cmd = { "typescript-language-server", "--stdio" },
@@ -215,8 +216,37 @@ return {
 				root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 				capabilities = capabilities,
 				settings = {
-					completions = {
-						completeFunctionCalls = true,
+					typescript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+						suggest = {
+							completeFunctionCalls = true,
+							includeCompletionsForModuleExports = true,
+							includeAutomaticOptionalChainCompletions = true,
+						},
+					},
+					javascript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+						suggest = {
+							completeFunctionCalls = true,
+							includeCompletionsForModuleExports = true,
+							includeAutomaticOptionalChainCompletions = true,
+						},
 					},
 				},
 			})

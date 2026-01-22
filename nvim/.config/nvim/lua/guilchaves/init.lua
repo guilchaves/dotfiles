@@ -17,6 +17,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 vim.opt.splitright = true
+vim.o.winborder = "single"
 
 vim.api.nvim_set_keymap(
 	"n",
@@ -32,5 +33,5 @@ vim.api.nvim_set_keymap(
 )
 
 require("lazy").setup("plugins")
-color = "catppuccin"
+color = "rose-pine"
 ColorMyPencils(color)
