@@ -34,7 +34,7 @@ tide_status_icon ✔
 tide_status_icon_failure ✘
 tide_terraform_icon 󱁢
 tide_toolbox_icon 
-tide_vi_mode_icon_default D
+tide_vi_mode_icon_default '' 
 tide_vi_mode_icon_insert I
 tide_vi_mode_icon_replace R
 tide_vi_mode_icon_visual V

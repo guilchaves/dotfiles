@@ -1,6 +1,15 @@
-set -g tide_git_bg_color 7287FD
-set -g tide_git_bg_color_unstable E5C890 
-set -g tide_git_bg_color_urgent D20F39 
+## set -g tide_git_bg_color #81c8be 
+
+## catppuccin:
+## set -g tide_git_bg_color 7287FD
+## set -g tide_git_bg_color_unstable E5C890 
+## set -g tide_git_bg_color_urgent D20F39 
+
+## rose-pine main:
+set -g tide_git_bg_color C4A7E7 
+set -g tide_git_bg_color_unstable F6C177 
+set -g tide_git_bg_color_urgent EB6F92 
+
 set -g tide_git_branch_color 000000
 set -g tide_git_color_branch 000000
 set -g tide_git_color_conflicted 000000
@@ -27,3 +36,5 @@ set -g tide_os_bg_color 9CA0B0
 set -g tide_os_icon 
 set -g tide_time_bg_color DCE0E8
 set -g tide_status_bg_color 303446
+set -g tide_kubectl_bg_color 3970e4 
+set -g tide_kubectl_color 0f3074 
