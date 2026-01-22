@@ -17,7 +17,7 @@ This repository contains some of my personal dotfiles. Feel free to use them as 
 
 #### Requirements
 
-- Neovim **0.9.5** (needs to be built with **LuaJIT**)
+- Neovim **0.11.2** (needs to be built with **LuaJIT**)
 - Git >= **2.34.1** (probably, idk)
 - [LazyVim](https://www.lazyvim.org/)
 - for [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) **_(optional)_**
