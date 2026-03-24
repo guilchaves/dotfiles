@@ -14,6 +14,7 @@ This dotfiles repository includes configurations for:
 - **Wofi** - Application launcher for Wayland
 - **Kitty** - Fast, feature-rich, GPU-based terminal emulator
 - **Git** - Version control with custom aliases
+- **Opencode** - AI-driven development environment with agents and skills
 
 ## Requirements
 
@@ -33,6 +34,7 @@ This dotfiles repository includes configurations for:
 | Git | 2.34.1+ | Version control |
 | Hyprland | 0.35+ | Wayland compositor |
 | Kitty | 0.30+ | GPU terminal emulator |
+| Opencode | Latest | AI development environment |
 
 ## Installation
 
@@ -44,7 +46,7 @@ git clone https://github.com/guilchaves/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 
 # Install configurations using stow
-stow nvim fish kitty tmux hyprland waybar wofi git
+stow nvim fish kitty tmux hyprland waybar wofi git opencode
 ```
 
 ### Manual Installation
@@ -205,6 +207,34 @@ Comprehensive Git configuration with useful aliases.
 - Diff tool: nvimdiff
 - GitHub user: guilchaves
 - Case-sensitive file matching
+
+### Opencode (AI Development)
+
+Configuration for [Opencode](https://opencode.ai) - an AI-driven development environment with agents and skills.
+
+**Agent Configuration:**
+- **Core Agent** (`agent/core.md`) - Primary agent orchestrating the development workflow through planning, task management, implementation, and review phases
+- **Planner Agent** (`agent/subagents/planner.md`) - Analyzes requests and gathers context
+- **Task Manager** (`agent/subagents/task-manager.md`) - Breaks down plans into actionable steps
+- **Reviewer Agent** (`agent/reviewer.md`) - Validates implementation quality
+
+**Available Skills:**
+- **write-a-prd** - Creates Product Requirements Documents through user interviews and codebase exploration
+- **prd-to-issues** - Converts PRDs into GitHub issues
+- **prd-to-plan** - Transforms PRDs into multi-phase implementation plans using tracer-bullet vertical slices
+- **ubiquitous-language** - Extracts DDD-style domain terminology and creates glossaries
+- **grill-me** - Stress-tests plans and designs through relentless questioning
+- **request-refactor-plan** - Plans refactoring efforts
+- **improve-codebase-architecture** - Analyzes and suggests architecture improvements
+
+**Themes:**
+- Custom Opencode themes: `opencode-transparent.json`, `ayu-dark.json`
+
+**Installation:**
+```bash
+# Install opencode configuration
+stow opencode
+```
 
 ## Theme Information
 
