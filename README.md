@@ -12,6 +12,7 @@ This repository contains some of my personal dotfiles. Feel free to use them as 
 - wofi
 - waybar
 - kitty terminal
+- copilot dotfiles
 
 ## Neovim setup
 
@@ -40,3 +41,7 @@ This repository contains some of my personal dotfiles. Feel free to use them as 
 - install Tmux Plugin Manager
 - neovim colorscheme on tmux fixed based on this [article](https://www.cyfyifanchen.com/blog/neovim-true-color)
 
+### Copilot
+
+- add `.copilot/` on `~/`
+- contains repository instructions and agent definitions for Copilot workflows
