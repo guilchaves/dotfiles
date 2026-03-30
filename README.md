@@ -41,10 +41,12 @@ Copy files to their respective directories:
 | `wofi/.config/wofi/` | `~/.config/wofi/` |
 | `opencode/.config/opencode/` | `~/.config/opencode/` |
 | `.gitconfig` | `~/.gitconfig` |
+| `.copilot/` | `~/.copilot/` |
 
 ```bash
 # Create directories
 mkdir -p ~/.config/{nvim,fish,kitty,hypr,waybar,wofi,opencode}
+mkdir -p ~/.copilot
 
 # Symlink configs
 ln -sf ~/.dotfiles/nvim/.config/nvim/* ~/.config/nvim/
@@ -59,6 +61,7 @@ ln -sf ~/.dotfiles/waybar/.config/waybar/* ~/.config/waybar/
 ln -sf ~/.dotfiles/wofi/.config/wofi/* ~/.config/wofi/
 ln -sf ~/.dotfiles/opencode/.config/opencode/* ~/.config/opencode/
 ln -sf ~/.dotfiles/.gitconfig ~/
+ln -sf ~/.dotfiles/.copilot/* ~/.copilot/
 ```
 
 ## Post-Install
@@ -66,6 +69,16 @@ ln -sf ~/.dotfiles/.gitconfig ~/
 - **Neovim**: Run `:Lazy` to install plugins
 - **Tmux**: Install TPM (`git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`), then press `Ctrl+s` followed by `I`
 - **Fish**: Install Fisher (`curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher`), then run `fisher update`
+
+## Copilot
+
+Configuration for GitHub Copilot and AI agents.
+
+| File | Description |
+|------|-------------|
+| `copilot-instructions.md` | Custom instructions for GitHub Copilot |
+| `AGENTS.md` | Agents workflow and role definitions |
+| `agents/` | Individual agent definition files |
 
 ## License
 
