@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, and Hyprland.
+Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, Hyprland, and GitHub Copilot.
 
 ## Versions
 
@@ -12,6 +12,7 @@ Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, and
 | Kitty | 0.30+ | GPU terminal |
 | Hyprland | 0.35+ | Wayland compositor |
 | Git | 2.34.1+ | Version control |
+| GitHub Copilot | - | AI coding assistant (agents, skills, instructions) |
 
 ## Installation
 
@@ -20,7 +21,7 @@ Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, and
 ```bash
 git clone https://github.com/guilchaves/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-stow nvim fish kitty tmux hyprland waybar wofi git opencode
+stow nvim fish kitty tmux hyprland waybar wofi git opencode copilot
 ```
 
 ### Manual Install
@@ -40,11 +41,12 @@ Copy files to their respective directories:
 | `waybar/.config/waybar/` | `~/.config/waybar/` |
 | `wofi/.config/wofi/` | `~/.config/wofi/` |
 | `opencode/.config/opencode/` | `~/.config/opencode/` |
+| `copilot/.github/` | `~/.github/` |
 | `.gitconfig` | `~/.gitconfig` |
 
 ```bash
 # Create directories
-mkdir -p ~/.config/{nvim,fish,kitty,hypr,waybar,wofi,opencode}
+mkdir -p ~/.config/{nvim,fish,kitty,hypr,waybar,wofi,opencode} ~/.github
 
 # Symlink configs
 ln -sf ~/.dotfiles/nvim/.config/nvim/* ~/.config/nvim/
@@ -58,6 +60,7 @@ ln -sf ~/.dotfiles/hyprpaper/.config/hypr/* ~/.config/hypr/
 ln -sf ~/.dotfiles/waybar/.config/waybar/* ~/.config/waybar/
 ln -sf ~/.dotfiles/wofi/.config/wofi/* ~/.config/wofi/
 ln -sf ~/.dotfiles/opencode/.config/opencode/* ~/.config/opencode/
+ln -sf ~/.dotfiles/copilot/.github/* ~/.github/
 ln -sf ~/.dotfiles/.gitconfig ~/
 ```
 
