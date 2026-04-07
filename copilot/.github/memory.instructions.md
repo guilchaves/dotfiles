@@ -77,3 +77,13 @@ Include:
 - rollback (se aplicável)
 
 - Link the related issue when available
+
+## Documentation Convention
+
+- The only allowed location for agent-generated Markdown documentation is the repository root `docs/` directory.
+- Do not create or move documentation into `app/docs`, `api/docs`, `ai/docs`, `web/docs`, or other nested documentation folders unless explicitly requested by the user.
+- When documenting a specific app, keep the file in root `docs/` and use a filename prefix to indicate ownership, for example:
+  - `docs/app-login-bug.md`
+  - `docs/api-token-refresh-fix.md`
+  - `docs/ai-rate-limit-analysis.md`
+  - `docs/web-landing-copy-update.md`
