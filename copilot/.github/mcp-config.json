@@ -1,14 +1,6 @@
 {
   "inputs": [],
   "servers": {
-    "grafana-clarice": {
-      "command": "uvx",
-      "args": ["mcp-grafana"],
-      "env": {
-        "GRAFANA_URL": "",
-        "GRAFANA_SERVICE_ACCOUNT_TOKEN": ""
-      }
-    },
     "context7": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp",
@@ -18,7 +10,7 @@
       "tools": ["query-docs", "resolve-library-id"]
     },
     "chrome-devtools": {
-      "type": "stdio",
+      "type": "local",
       "command": "npx",
       "tools": ["*"],
       "args": ["-y", "chrome-devtools-mcp@latest"]

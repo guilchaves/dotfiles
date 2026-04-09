@@ -65,24 +65,13 @@ These instructions define how Copilot CLI agents should operate in this reposito
 
 ---
 
-## Documentation Location Policy
+## Documentation Scope
 
-- All agent-generated Markdown documentation must live only in the repository root `docs/` directory.
-- Never create documentation files in app-local folders such as:
-  - `app/docs/`
-  - `api/docs/`
-  - `ai/docs/`
-  - `web/docs/`
-  - or any other nested `docs/` directory
-- Treat the root `docs/` folder as the single source of truth for:
-  - issue writeups
-  - solution notes
-  - implementation summaries
-  - debug reports
-  - migration notes
-  - postmortems
-- Only create Markdown outside root `docs/` if the user explicitly asks for it.
-- If a framework or tool requires a local README or local docs file, ask before creating it.
+- `docs/` always means the repository root `docs/` folder.
+- This is the only approved location for agent-generated Markdown documentation.
+- Never create Markdown files in nested folders like `app/docs/`, `api/docs/`, `ai/docs/`, or `web/docs/`.
+- For app-specific documentation, keep the file in root `docs/` and prefix the filename with the app name.
+- Create Markdown outside root `docs/` only if the user explicitly requests it.
 
 ---
 
@@ -100,6 +89,7 @@ When applying a behavioral change, the agent must:
    - a `diff` block or
    - a code snippet highlighting the main change
 5. Paste the markdown content into the PR description and reference the file.
+
 ---
 
 ## Validation
