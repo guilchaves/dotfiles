@@ -15,4 +15,4 @@ Dotfiles de LazyVim com remaps e plugins em *lua*.
 - lualine</br>
 - none-ls</br>
 - telescope</br>
-- treesiter</br>
+- treesitter</br>
