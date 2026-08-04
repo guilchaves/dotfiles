@@ -66,15 +66,15 @@ return {
 			},
 			formatters = {
 				mix = {
-					timeout_ms = 10000,
-					cwd = function()
-						return vim.fs.root(0, "mix.exs") or vim.fn.getcwd()
+					timeout_ms = 30000,
+					cwd = function(ctx)
+						return vim.fs.root(ctx.filename, "mix.exs") or vim.fn.getcwd()
 					end,
 				},
 			},
 			format_on_save = function(bufnr)
 				if vim.bo[bufnr].filetype == "elixir" then
-					return { timeout_ms = 10000, lsp_fallback = true }
+					return { timeout_ms = 30000, lsp_fallback = true }
 				end
 				return { timeout_ms = 2000, lsp_fallback = true }
 			end,
