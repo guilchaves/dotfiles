@@ -13,7 +13,6 @@ function M.setup(capabilities)
 		"gopls",
 		"emmet",
 		"pyright",
-		"hls",
 	}
 
 	for _, server in ipairs(servers) do
