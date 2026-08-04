@@ -1,14 +1,10 @@
 local keymap = vim.keymap
-local g = vim.g
-local cmd = vim.cmd
 local lsp = vim.lsp
 local opts = { noremap = true, silent = true }
 local diagnostic = vim.diagnostic
 
-g.mapleader = " "
-
--- Go to explorer
-keymap.set("n", "<leader>pv", cmd.Ex)
+-- Open oil.nvim
+keymap.set("n", "<leader>pv", "<CMD>Oil<CR>")
 
 -- Delete word backwards
 keymap.set("n", "dw", "vb_d")
@@ -36,8 +32,8 @@ keymap.set("n", "<tab>", ":tabnext<Return>", opts)
 keymap.set("n", "<s-tab>", ":tabnext<Return>", opts)
 
 -- Split window
-keymap.set("n", "ss", ":vsplit<CR><C-w>w, opts")
-keymap.set("n", "vs", ":split<CR><C-w>w, opts")
+keymap.set("n", "ss", ":vsplit<CR><C-w>w", opts)
+keymap.set("n", "vs", ":split<CR><C-w>w", opts)
 
 -- Navigate between windows
 keymap.set("n", "<C-H>", "<C-W>h")
@@ -71,12 +67,26 @@ keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left
 
 -- Organize imports on TS
 keymap.set("n", "<leader>oi", function()
-  vim.lsp.buf.code_action({ 
-    context = { only = { "source.organizeImports.ts" } },
-    apply = true
-  })
+	vim.lsp.buf.code_action({
+		context = { only = { "source.organizeImports.ts" } },
+		apply = true,
+	})
 end, { desc = "Organize Imports" })
 
 keymap.set({ "n", "x" }, "<leader>ca", function()
 	require("tiny-code-action").code_action()
 end, { noremap = true, silent = true })
+
+-- Personal macros
+keymap.set(
+	"n",
+	"<leader>cq",
+	':lua require("util.macros").insert_quack_log()<CR>',
+	{ noremap = true, silent = true }
+)
+keymap.set(
+	"n",
+	"<leader>q",
+	':lua require("util.macros").insert_quack()<CR>',
+	{ noremap = true, silent = true }
+)
