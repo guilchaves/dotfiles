@@ -28,6 +28,7 @@ return {
 					"eslint",
 					"html",
 					"pyright",
+					"hls",
 				},
 			})
 		end,
