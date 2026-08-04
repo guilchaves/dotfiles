@@ -1,1 +1,1 @@
-require("guilchaves")
+require("core")

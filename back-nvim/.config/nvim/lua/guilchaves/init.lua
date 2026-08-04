@@ -33,5 +33,5 @@ vim.api.nvim_set_keymap(
 )
 
 require("lazy").setup("plugins")
-color = "gruvbox-material"
+color = "rose-pine"
 ColorMyPencils(color)

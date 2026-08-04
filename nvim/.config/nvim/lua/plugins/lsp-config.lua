@@ -4,25 +4,26 @@ local opts = { noremap = true, silent = true }
 
 return {
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		config = function()
 			require("mason").setup()
 		end,
 	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
 				auto_install = true,
 				automatic_enable = {
-					exclude = { "hls", "elixirls" },
+					-- ruff is installed via mason-tool-installer only for formatting (conform.nvim)
+					exclude = { "elixirls", "ruff" },
 				},
 				ensure_installed = {
 					"lua_ls",
 					"rust_analyzer",
 					"tailwindcss",
 					"elixirls",
-					"ts_ls",
+					"vtsls",
 					"htmx",
 					"templ",
 					"gopls",
@@ -36,97 +37,94 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = { "saghen/blink.cmp" },
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local util = require("lspconfig.util")
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			local _border = "single"
-			vim.o.winborder = _border
-
-			local on_attach = function(client, bufnr) end
-
-			local ok, mason_registry = pcall(require, "mason-registry")
-			-- local angularls_cmd = { "ngserver", "--stdio" }
-
-			if ok then
-				local success, pkg = pcall(mason_registry.get_package, mason_registry, "angular-language-server")
-				if success and pkg then
-					-- Tenta usar get_install_path() se existir, senão usa install_path
-					local install_path = nil
-					if type(pkg.get_install_path) == "function" then
-						install_path = pkg:get_install_path()
-					elseif pkg.install_path then
-						install_path = pkg.install_path
-					end
-
-					if install_path then
-						angularls_cmd = {
-							"ngserver",
-							"--stdio",
-							"--tsProbeLocations",
-							table.concat({
-								install_path,
-								vim.uv.cwd(),
-							}, ","),
-							"--ngProbeLocations",
-							table.concat({
-								install_path .. "/node_modules/@angular/language-server",
-								vim.uv.cwd(),
-							}, ","),
-						}
-					end
-				end
-			end
 
 			vim.diagnostic.config({
 				float = { border = _border },
 			})
 
+			-- Global LSP keymaps applied on every LspAttach
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					local bufnr = args.buf
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					if not client then
+						return
+					end
+
+					keymap.set("n", "K", lsp.buf.hover, vim.tbl_extend("force", opts, { buffer = bufnr }))
+					keymap.set("n", "gd", lsp.buf.definition, vim.tbl_extend("force", opts, { buffer = bufnr }))
+					keymap.set("n", "<leader>gr", lsp.buf.references, vim.tbl_extend("force", opts, { buffer = bufnr }))
+					keymap.set(
+						{ "i", "n" },
+						"<C-s>",
+						lsp.buf.signature_help,
+						vim.tbl_extend("force", opts, { buffer = bufnr })
+					)
+					keymap.set("n", "<leader>rn", lsp.buf.rename, vim.tbl_extend("force", opts, { buffer = bufnr }))
+
+					-- vtsls specific keymaps
+					if client.name == "vtsls" then
+						keymap.set("n", "<leader>co", function()
+							vim.lsp.buf.code_action({
+								apply = true,
+								context = {
+									only = { "source.organizeImports" },
+									diagnostics = {},
+								},
+							})
+						end, { buffer = bufnr, desc = "Organize Imports" })
+
+						keymap.set("n", "<leader>cR", function()
+							vim.lsp.buf.code_action({
+								apply = true,
+								context = {
+									only = { "source.removeUnusedImports" },
+									diagnostics = {},
+								},
+							})
+						end, { buffer = bufnr, desc = "Remove Unused Imports" })
+					end
+
+					-- gopls specific keymaps
+					if client.name == "gopls" then
+						keymap.set("n", "<leader>fs", function()
+							vim.lsp.buf.code_action({
+								context = { only = { "refactor.rewrite" } },
+								apply = true,
+							})
+						end, { buffer = bufnr, desc = "Fill struct" })
+					end
+				end,
+			})
+
 			-- lua_ls
 			vim.lsp.config("lua_ls", {
-				cmd = { "lua-language-server" },
-				filetypes = { "lua" },
-				root_markers = {
-					".luarc.json",
-					".luarc.jsonc",
-					".luacheckrc",
-					".stylua.toml",
-					"stylua.toml",
-					"selene.toml",
-					"selene.yml",
-					".git",
-				},
 				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
 			})
 			vim.lsp.enable("lua_ls")
 
 			-- elixirls
 			vim.lsp.config("elixirls", {
-				cmd = { vim.fn.expand("~/.bin/elixir-ls/language_server.sh") },
-				filetypes = { "elixir", "eelixir", "heex", "surface" },
-				root_markers = { "mix.exs", ".git" },
+				cmd = { vim.fn.stdpath("data") .. "/mason/bin/elixir-ls" },
 				capabilities = capabilities,
 			})
 			vim.lsp.enable("elixirls")
 
 			-- tailwindcss
 			vim.lsp.config("tailwindcss", {
-				cmd = { "tailwindcss-language-server", "--stdio" },
-				filetypes = { "templ", "javascript", "typescript", "typescriptreact", "javascriptreact", "html" },
-				root_markers = {
-					"tailwind.config.js",
-					"tailwind.config.cjs",
-					"tailwind.config.mjs",
-					"tailwind.config.ts",
-					"postcss.config.js",
-					"postcss.config.cjs",
-					"postcss.config.mjs",
-					"postcss.config.ts",
-					"package.json",
-					"node_modules",
-					".git",
-				},
 				capabilities = capabilities,
-				on_attach = on_attach,
+				filetypes = { "templ", "javascript", "typescript", "typescriptreact", "javascriptreact", "html" },
 				settings = {
 					tailwindCSS = {
 						includeLanguages = {
@@ -146,9 +144,7 @@ return {
 			vim.lsp.config("templ", {
 				cmd = { "templ", "lsp" },
 				filetypes = { "html", "templ" },
-				root_markers = { "go.mod", ".git" },
 				capabilities = capabilities,
-				on_attach = on_attach,
 			})
 			vim.lsp.enable("templ")
 
@@ -170,117 +166,70 @@ return {
 			-- htmx
 			vim.lsp.config("htmx", {
 				cmd = { "htmx-lsp" },
-				filetypes = { "html" },
-				root_markers = { ".git" },
 				capabilities = capabilities,
-				on_attach = on_attach,
 			})
 			vim.lsp.enable("htmx")
 
 			-- html
 			vim.lsp.config("html", {
-				cmd = { "vscode-html-language-server", "--stdio" },
 				filetypes = { "html", "templ" },
-				root_markers = { "package.json", ".git" },
 				capabilities = capabilities,
 			})
 			vim.lsp.enable("html")
 
-			-- -- angularls
-			-- vim.lsp.config("angularls", {
-			-- 	cmd = angularls_cmd,
-			-- 	filetypes = { "typescript", "html" },
-			-- 	root_markers = { "angular.json", "project.json", ".git" },
-			-- 	capabilities = capabilities,
-			-- 	on_new_config = function(new_config, new_root_dir)
-			-- 		new_config.cmd = angularls_cmd
-			-- 	end,
-			-- })
-			-- vim.lsp.enable("angularls")
-
-			-- ts_ls
-			-- ts_ls
-			vim.lsp.config("ts_ls", {
-				cmd = { "typescript-language-server", "--stdio" },
-				filetypes = {
-					"typescript",
-					"typescriptreact",
-					"typescript.tsx",
-					"javascript",
-					"javascriptreact",
-					"html",
-				},
-				root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+			-- vtsls
+			vim.lsp.config("vtsls", {
 				capabilities = capabilities,
 				settings = {
-					typescript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "all",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = true,
-							includeInlayVariableTypeHints = true,
-							includeInlayPropertyDeclarationTypeHints = true,
-							includeInlayFunctionLikeReturnTypeHints = true,
-							includeInlayEnumMemberValueHints = true,
+					complete_function_calls = true,
+					vtsls = {
+						enableMoveToFileCodeAction = true,
+						autoUseWorkspaceTsdk = true,
+						experimental = {
+							maxInlayHintLength = 30,
+							completion = {
+								enableServerSideFuzzyMatch = true,
+							},
 						},
+					},
+					typescript = {
+						updateImportsOnFileMove = { enabled = "always" },
 						suggest = {
 							completeFunctionCalls = true,
 							includeCompletionsForModuleExports = true,
 							includeAutomaticOptionalChainCompletions = true,
+						},
+						inlayHints = {
+							enumMemberValues = { enabled = true },
+							functionLikeReturnTypes = { enabled = true },
+							parameterNames = { enabled = "all" },
+							parameterTypes = { enabled = true },
+							propertyDeclarationTypes = { enabled = true },
+							variableTypes = { enabled = true },
 						},
 					},
 					javascript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "all",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = true,
-							includeInlayVariableTypeHints = true,
-							includeInlayPropertyDeclarationTypeHints = true,
-							includeInlayFunctionLikeReturnTypeHints = true,
-							includeInlayEnumMemberValueHints = true,
-						},
 						suggest = {
 							completeFunctionCalls = true,
 							includeCompletionsForModuleExports = true,
 							includeAutomaticOptionalChainCompletions = true,
 						},
+						inlayHints = {
+							enumMemberValues = { enabled = true },
+							functionLikeReturnTypes = { enabled = true },
+							parameterNames = { enabled = "all" },
+							parameterTypes = { enabled = true },
+							propertyDeclarationTypes = { enabled = true },
+							variableTypes = { enabled = true },
+						},
 					},
 				},
 			})
-			vim.lsp.enable("ts_ls")
-
-			-- Keymaps para ts_ls (organize imports e remove unused)
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client and client.name == "ts_ls" then
-						vim.keymap.set("n", "<leader>co", function()
-							vim.lsp.buf.code_action({
-								apply = true,
-								context = {
-									only = { "source.organizeImports.ts" },
-									diagnostics = {},
-								},
-							})
-						end, { buffer = args.buf, desc = "Organize Imports" })
-
-						vim.keymap.set("n", "<leader>cR", function()
-							vim.lsp.buf.code_action({
-								apply = true,
-								context = {
-									only = { "source.removeUnused.ts" },
-									diagnostics = {},
-								},
-							})
-						end, { buffer = args.buf, desc = "Remove Unused Imports" })
-					end
-				end,
-			})
+			vim.lsp.enable("vtsls")
 
 			-- eslint
 			vim.lsp.config("eslint", {
-				cmd = { "vscode-eslint-language-server", "--stdio" },
-				filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				capabilities = capabilities,
 				root_markers = {
 					".eslintrc",
 					".eslintrc.js",
@@ -297,21 +246,11 @@ return {
 					"package.json",
 					".git",
 				},
-				capabilities = capabilities,
-				on_attach = function(client, bufnr) end,
-				-- settings = {
-				-- 	experimental = {
-				-- 		useFlatConfig = true, -- importante para eslint.config.mjs
-				-- 	},
-				-- },
 			})
 			vim.lsp.enable("eslint")
 
 			-- gopls
 			vim.lsp.config("gopls", {
-				cmd = { "gopls" },
-				filetypes = { "go", "gomod", "gowork", "gotmpl" },
-				root_markers = { "go.work", "go.mod", ".git" },
 				capabilities = capabilities,
 				settings = {
 					gopls = {
@@ -339,24 +278,8 @@ return {
 			})
 			vim.lsp.enable("gopls")
 
-			-- Keymap específico para gopls (fill struct)
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client and client.name == "gopls" then
-						vim.keymap.set("n", "<leader>fs", function()
-							vim.lsp.buf.code_action({
-								context = { only = { "refactor.rewrite" } },
-								apply = true,
-							})
-						end, { buffer = args.buf, desc = "Fill struct" })
-					end
-				end,
-			})
-
 			-- emmet_language_server
 			vim.lsp.config("emmet_language_server", {
-				cmd = { "emmet-language-server", "--stdio" },
 				filetypes = {
 					"css",
 					"html",
@@ -366,22 +289,11 @@ return {
 					"typescriptreact",
 					"typescript.tsx",
 				},
-				root_markers = { ".git" },
 			})
 			vim.lsp.enable("emmet_language_server")
 
 			-- pyright
 			vim.lsp.config("pyright", {
-				cmd = { "pyright-langserver", "--stdio" },
-				filetypes = { "python" },
-				root_markers = {
-					"pyproject.toml",
-					"setup.py",
-					"setup.cfg",
-					"requirements.txt",
-					"pyrightconfig.json",
-					".git",
-				},
 				capabilities = capabilities,
 				settings = {
 					python = {
@@ -395,14 +307,6 @@ return {
 				},
 			})
 			vim.lsp.enable("pyright")
-
-			-- Keymaps globais
-			keymap.set("n", "K", lsp.buf.hover, {})
-			keymap.set("n", "gd", lsp.buf.definition, {})
-			keymap.set("n", "<leader>gr", lsp.buf.references, {})
-			-- keymap.set({ "n", "v" }, "<leader>ca", lsp.buf.code_action, {})
-			keymap.set({ "i", "n" }, "<C-s>", lsp.buf.signature_help, opts)
-			keymap.set("n", "<leader>rn", lsp.buf.rename, opts)
 		end,
 	},
 }

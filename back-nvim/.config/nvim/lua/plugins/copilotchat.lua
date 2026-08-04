@@ -1,4 +1,5 @@
 return {
+	{ "github/copilot.vim" },
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		config = function()
@@ -36,6 +37,7 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
+			"github/copilot.vim",
 		},
 
 		build = "make tiktoken",
