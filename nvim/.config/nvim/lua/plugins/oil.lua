@@ -1,9 +1,10 @@
 local arg = vim.fn.argv(0)
-local load_on_vimenter = arg and vim.fn.isdirectory(arg) == 1
+local open_directory = arg and vim.fn.isdirectory(arg) == 1
 
 return {
 	"stevearc/oil.nvim",
-	event = load_on_vimenter and "VimEnter" or nil,
+	lazy = not open_directory,
+	priority = open_directory and 1000 or nil,
 	cmd = "Oil",
 	keys = {
 		{ "-", "<CMD>Oil<CR>", desc = "Open parent directory" },
@@ -16,7 +17,7 @@ return {
 			},
 		})
 
-		if load_on_vimenter then
+		if open_directory then
 			require("oil").open(arg)
 		end
 	end,
