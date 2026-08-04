@@ -1,5 +1,6 @@
 return {
     "lukas-reineke/virt-column.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
         -- Silence the deprecation warning caused by the plugin's old
         -- `vim.validate{<table>}` usage until upstream is updated.
