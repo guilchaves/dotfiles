@@ -62,7 +62,22 @@ keymap.set("i", "<C-h>", lsp.buf.signature_help, opts)
 keymap.set("i", "<C-c>", "<Esc>")
 
 -- Format file
-keymap.set("n", "<leader>f", lsp.buf.format)
+keymap.set("n", "<leader>f", function()
+	local ft = vim.bo.filetype
+	local null_ls_ok, null_ls_sources = pcall(require, "null-ls.sources")
+	local null_ls_can_format = null_ls_ok and #null_ls_sources.get_available(ft, "NULL_LS_FORMATTING") > 0
+	lsp.buf.format({
+		filter = function(client)
+			if not client.server_capabilities.documentFormattingProvider then
+				return false
+			end
+			if null_ls_can_format then
+				return client.name == "null-ls"
+			end
+			return client.name ~= "null-ls"
+		end,
+	})
+end)
 
 -- Rename all occurences of word
 keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

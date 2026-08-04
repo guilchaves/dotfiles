@@ -53,6 +53,9 @@ return {
 		"hrsh7th/cmp-nvim-lsp",
 	},
 	{
+		"hrsh7th/cmp-copilot",
+	},
+	{
 		"L3MON4D3/LuaSnip",
 		dependencies = {
 			"saadparwaiz1/cmp_luasnip",
@@ -90,9 +93,10 @@ return {
 					EnumMember = "",
 					Constant = "󰏿",
 					Struct = "󰙅",
-					Event = "",
+					Event = "",
 					Operator = "󰆕",
 					TypeParameter = "",
+					Copilot = "⏣",
 				},
 			})
 		end,
@@ -124,10 +128,11 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 				}),
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" }, -- For luasnip users.
+					{ name = "copilot", priority = 1000 },
+					{ name = "nvim_lsp", priority = 500 },
+					{ name = "luasnip", priority = 400 }, -- For luasnip users.
 				}, {
-					{ name = "buffer" },
+					{ name = "buffer", priority = 100 },
 				}),
 				formatting = {
 					-- combine lspkind's formatter with your existing nvim-highlight-colors.format

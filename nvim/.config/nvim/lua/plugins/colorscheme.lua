@@ -48,7 +48,7 @@ return {
 	},
 	{
 		"rose-pine/neovim",
-        name = "rose-pine",
+		name = "rose-pine",
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -56,13 +56,26 @@ return {
 				dark_variant = "main",
 				disable_background = true,
 				integrations = { all = true },
-                styles = {
-                    bold = true,
-                    italic = true,
-                    transparency = true,
-                }
+				styles = {
+					bold = true,
+					italic = true,
+					transparency = true,
+				},
 			})
 			vim.cmd.colorscheme("rose-pine")
+		end,
+	},
+	{
+		"sainnhe/gruvbox-material",
+		name = "gruvbox-material",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.g.gruvbox_material_enable_italic = true
+			vim.g.gruvbox_material_transparent_background = 1
+			vim.g.gruvbox_material_foreground = "mix"
+			vim.g.gruvbox_material_background = "medium"
+			vim.cmd.colorscheme("gruvbox-material")
 		end,
 	},
 }

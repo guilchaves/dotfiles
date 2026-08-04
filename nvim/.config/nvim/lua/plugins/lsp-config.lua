@@ -14,6 +14,9 @@ return {
 		config = function()
 			require("mason-lspconfig").setup({
 				auto_install = true,
+				automatic_enable = {
+					exclude = { "hls", "elixirls" },
+				},
 				ensure_installed = {
 					"lua_ls",
 					"rust_analyzer",
@@ -26,6 +29,7 @@ return {
 					"emmet_language_server",
 					"eslint",
 					"html",
+					"pyright",
 				},
 			})
 		end,
@@ -36,6 +40,7 @@ return {
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local util = require("lspconfig.util")
 			local _border = "single"
+			vim.o.winborder = _border
 
 			local on_attach = function(client, bufnr) end
 
@@ -71,14 +76,6 @@ return {
 					end
 				end
 			end
-
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = _border,
-			})
-
-			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-				border = _border,
-			})
 
 			vim.diagnostic.config({
 				float = { border = _border },
@@ -372,6 +369,32 @@ return {
 				root_markers = { ".git" },
 			})
 			vim.lsp.enable("emmet_language_server")
+
+			-- pyright
+			vim.lsp.config("pyright", {
+				cmd = { "pyright-langserver", "--stdio" },
+				filetypes = { "python" },
+				root_markers = {
+					"pyproject.toml",
+					"setup.py",
+					"setup.cfg",
+					"requirements.txt",
+					"pyrightconfig.json",
+					".git",
+				},
+				capabilities = capabilities,
+				settings = {
+					python = {
+						analysis = {
+							autoSearchPaths = true,
+							useLibraryCodeForTypes = true,
+							diagnosticMode = "workspace",
+							typeCheckingMode = "basic",
+						},
+					},
+				},
+			})
+			vim.lsp.enable("pyright")
 
 			-- Keymaps globais
 			keymap.set("n", "K", lsp.buf.hover, {})
