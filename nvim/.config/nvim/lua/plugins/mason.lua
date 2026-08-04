@@ -67,8 +67,9 @@ return {
 			formatters = {
 				mix = {
 					timeout_ms = 30000,
-					cwd = function(ctx)
-						return vim.fs.root(ctx.filename, "mix.exs") or vim.fn.getcwd()
+					cwd = function()
+						local filename = vim.api.nvim_buf_get_name(0)
+						return vim.fs.root(filename, "mix.exs") or vim.fn.getcwd()
 					end,
 				},
 			},
