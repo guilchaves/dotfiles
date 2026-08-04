@@ -36,8 +36,8 @@ keymap.set("n", "<tab>", ":tabnext<Return>", opts)
 keymap.set("n", "<s-tab>", ":tabnext<Return>", opts)
 
 -- Split window
-keymap.set("n", "ss", ":vsplit<CR><C-w>w, opts")
-keymap.set("n", "vs", ":split<CR><C-w>w, opts")
+keymap.set("n", "ss", ":vsplit<CR><C-w>w", opts)
+keymap.set("n", "vs", ":split<CR><C-w>w", opts)
 
 -- Navigate between windows
 keymap.set("n", "<C-H>", "<C-W>h")
