@@ -14,7 +14,7 @@ return {
 			require("mason-lspconfig").setup({
 				auto_install = true,
 				automatic_enable = {
-					exclude = { "elixirls", "ruff", "rust_analyzer" },
+					exclude = { "elixirls", "ruff", "rust_analyzer", "hls" },
 				},
 				ensure_installed = {
 					"lua_ls",
