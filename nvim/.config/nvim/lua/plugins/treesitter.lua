@@ -35,6 +35,7 @@ return {
 			"vimdoc",
 			"xml",
 			"yaml",
+			"haskell",
 		},
 	},
 	config = function(_, opts)
