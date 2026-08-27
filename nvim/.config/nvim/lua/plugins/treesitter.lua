@@ -1,5 +1,6 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
 	build = ":TSUpdate",
 	event = { "BufReadPre", "BufNewFile" },
 	opts = {
@@ -17,6 +18,7 @@ return {
 			"javascript",
 			"jsdoc",
 			"json",
+			"julia",
 			"lua",
 			"luadoc",
 			"luap",

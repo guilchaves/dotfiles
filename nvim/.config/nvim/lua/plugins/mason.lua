@@ -63,6 +63,7 @@ return {
 				python = { "ruff_organize_imports", "ruff_format" },
 				go = { "gofmt", "golines" },
 				elixir = { "mix" },
+				haskell = { "ormolu" },
 			},
 			formatters = {
 				mix = {
