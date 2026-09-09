@@ -64,6 +64,7 @@ return {
 				go = { "gofmt", "golines" },
 				elixir = { "mix" },
 				haskell = { "ormolu" },
+				ocaml = { "ocamlformat" },
 			},
 			formatters = {
 				mix = {

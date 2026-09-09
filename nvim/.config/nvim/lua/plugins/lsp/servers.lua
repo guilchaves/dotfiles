@@ -13,6 +13,7 @@ function M.setup(capabilities)
 		"gopls",
 		"emmet",
 		"pyright",
+		"ocaml",
 	}
 
 	for _, server in ipairs(servers) do
