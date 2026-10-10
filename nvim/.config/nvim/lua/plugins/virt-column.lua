@@ -5,6 +5,7 @@ return {
         -- Silence the deprecation warning caused by the plugin's old
         -- `vim.validate{<table>}` usage until upstream is updated.
         local deprecate = vim.deprecate
+        ---@diagnostic disable-next-line: duplicate-set-field
         vim.deprecate = function() end
         local ok, err = pcall(require("virt-column").setup, {})
         vim.deprecate = deprecate

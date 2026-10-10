@@ -48,6 +48,8 @@ return {
 							vim.lsp.buf.code_action({
 								apply = true,
 								context = {
+									-- vtsls-specific kind, not in the LSP spec's CodeActionKind list
+									---@diagnostic disable-next-line: assign-type-mismatch
 									only = { "source.removeUnusedImports" },
 									diagnostics = {},
 								},

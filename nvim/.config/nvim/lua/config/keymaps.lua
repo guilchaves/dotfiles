@@ -46,8 +46,12 @@ keymap.set("n", "<C-w><left>", "<C-w><")
 keymap.set("n", "<C-w><right>", "<C-w>>")
 
 -- Diagnostics
-keymap.set("n", "<C-j>", diagnostic.goto_next, opts)
-keymap.set("n", "<C-k>", diagnostic.goto_prev, opts)
+keymap.set("n", "<C-j>", function()
+	diagnostic.jump({ count = 1, float = true })
+end, opts)
+keymap.set("n", "<C-k>", function()
+	diagnostic.jump({ count = -1, float = true })
+end, opts)
 keymap.set("n", "<leader>e", diagnostic.open_float, opts)
 keymap.set("n", "<leader>dl", diagnostic.setqflist, opts)
 
@@ -68,6 +72,8 @@ keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left
 -- Organize imports on TS
 keymap.set("n", "<leader>oi", function()
 	vim.lsp.buf.code_action({
+		-- vtsls-specific kind, not in the LSP spec's CodeActionKind list
+		---@diagnostic disable-next-line: assign-type-mismatch
 		context = { only = { "source.organizeImports.ts" } },
 		apply = true,
 	})

@@ -1,4 +1,4 @@
-local arg = vim.fn.argv(0)
+local arg = vim.fn.argv(0) --[[@as string]]
 local open_directory = arg and vim.fn.isdirectory(arg) == 1
 
 return {
