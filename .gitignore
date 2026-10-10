@@ -1,2 +1,6 @@
 docs/
 CLAUDE.md
+
+# fish temp files written while saving universal variables
+fish/.config/fish/fish_variables?*
+fish/.config/fish/fishd.tmp.*
