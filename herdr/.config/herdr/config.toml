@@ -1,0 +1,35 @@
+onboarding = false
+# herdr configuration
+# Mirrored from ~/.tmux.conf
+
+[theme]
+name = "gruvbox"
+
+[terminal]
+default_shell = "/usr/bin/fish"
+
+[keys]
+prefix = "ctrl+s"
+
+# Prefix-mode actions
+reload_config = "prefix+r"
+toggle_sidebar = "prefix+p"
+
+# Agent switching (direct chords, no prefix; vim-style J/K)
+next_agent = "ctrl+shift+j"
+previous_agent = "ctrl+shift+k"
+previous_tab = ""  # freed so prefix+p can toggle the sidebar
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Navigate-mode movement (no prefix)
+navigate_pane_left = "h"
+navigate_pane_down = "j"
+navigate_pane_up = "k"
+navigate_pane_right = "l"
+
+[ui]
+tab_bar_position = "top"
+mouse_capture = true

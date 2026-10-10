@@ -21,7 +21,7 @@ Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, Hyp
 ```bash
 git clone https://github.com/guilchaves/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-stow nvim fish kitty tmux hyprland waybar wofi git opencode copilot
+stow nvim fish kitty tmux hyprland waybar wofi git opencode copilot herdr
 ```
 
 ### Manual Install
@@ -41,6 +41,7 @@ Copy files to their respective directories:
 | `waybar/.config/waybar/` | `~/.config/waybar/` |
 | `wofi/.config/wofi/` | `~/.config/wofi/` |
 | `opencode/.config/opencode/` | `~/.config/opencode/` |
+| `herdr/.config/herdr/config.toml` | `~/.config/herdr/config.toml` |
 | `copilot/.github/` | `~/.github/` |
 | `.gitconfig` | `~/.gitconfig` |
 
