@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, Hyprland, and GitHub Copilot.
+Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, Kitty, Hyprland, herdr, OpenCode, and GitHub Copilot.
 
 ## Versions
 
@@ -12,7 +12,24 @@ Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, Hyp
 | Kitty | 0.30+ | GPU terminal |
 | Hyprland | 0.35+ | Wayland compositor |
 | Git | 2.34.1+ | Version control |
+| herdr | 0.8.2+ | Terminal workspace for agents (keys mirror Tmux) |
+| OpenCode | 1.18+ | AI coding agent (agents, skills, themes) |
 | GitHub Copilot | - | AI coding assistant (agents, skills, instructions) |
+
+## What's Inside
+
+| Package | Contents |
+|---------|----------|
+| `nvim` | Neovim config (lazy.nvim, LSP servers, per-language ftplugins) |
+| `fish` | Fish config, Fisher plugins (tide, fzf, nvm, z) |
+| `kitty` | Kitty config and themes |
+| `tmux` | `.tmux.conf` (prefix `Ctrl+s`) |
+| `hyprland`, `hypridle`, `hyprlock`, `hyprpaper`, `hyprmocha` | Hyprland compositor, idle, lock screen, wallpaper and Catppuccin Mocha colors |
+| `waybar`, `wofi` | Status bar and launcher |
+| `herdr` | herdr `config.toml` (only the config; logs, sockets and sessions stay local) |
+| `opencode` | OpenCode agents, skills and themes |
+| `copilot` | GitHub Copilot agents, instructions and MCP config |
+| `.gitconfig` | Git config |
 
 ## Installation
 
@@ -21,7 +38,8 @@ Personal dotfiles for Linux development environment with Neovim, Fish, Tmux, Hyp
 ```bash
 git clone https://github.com/guilchaves/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-stow nvim fish kitty tmux hyprland waybar wofi git opencode copilot herdr
+stow nvim fish kitty tmux hyprland hypridle hyprlock hyprpaper hyprmocha waybar wofi opencode copilot herdr
+ln -sf ~/.dotfiles/.gitconfig ~/
 ```
 
 ### Manual Install
@@ -38,6 +56,7 @@ Copy files to their respective directories:
 | `hypridle/.config/hypr/` | `~/.config/hypr/` |
 | `hyprlock/.config/hypr/` | `~/.config/hypr/` |
 | `hyprpaper/.config/hypr/` | `~/.config/hypr/` |
+| `hyprmocha/.config/hypr/` | `~/.config/hypr/` |
 | `waybar/.config/waybar/` | `~/.config/waybar/` |
 | `wofi/.config/wofi/` | `~/.config/wofi/` |
 | `opencode/.config/opencode/` | `~/.config/opencode/` |
@@ -47,7 +66,7 @@ Copy files to their respective directories:
 
 ```bash
 # Create directories
-mkdir -p ~/.config/{nvim,fish,kitty,hypr,waybar,wofi,opencode} ~/.github
+mkdir -p ~/.config/{nvim,fish,kitty,hypr,waybar,wofi,opencode,herdr} ~/.github
 
 # Symlink configs
 ln -sf ~/.dotfiles/nvim/.config/nvim/* ~/.config/nvim/
@@ -58,9 +77,11 @@ ln -sf ~/.dotfiles/hyprland/.config/hypr/* ~/.config/hypr/
 ln -sf ~/.dotfiles/hypridle/.config/hypr/* ~/.config/hypr/
 ln -sf ~/.dotfiles/hyprlock/.config/hypr/* ~/.config/hypr/
 ln -sf ~/.dotfiles/hyprpaper/.config/hypr/* ~/.config/hypr/
+ln -sf ~/.dotfiles/hyprmocha/.config/hypr/* ~/.config/hypr/
 ln -sf ~/.dotfiles/waybar/.config/waybar/* ~/.config/waybar/
 ln -sf ~/.dotfiles/wofi/.config/wofi/* ~/.config/wofi/
 ln -sf ~/.dotfiles/opencode/.config/opencode/* ~/.config/opencode/
+ln -sf ~/.dotfiles/herdr/.config/herdr/config.toml ~/.config/herdr/
 ln -sf ~/.dotfiles/copilot/.github/* ~/.github/
 ln -sf ~/.dotfiles/.gitconfig ~/
 ```
