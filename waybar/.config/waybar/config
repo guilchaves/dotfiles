@@ -1,158 +1,148 @@
+// Based on omarchy's default Waybar (basecamp/omarchy v3.8.4, config/waybar/config.jsonc).
+// Omarchy-only modules (update, weather, voxtype, recording/idle/silencing indicators)
+// are dropped, and omarchy-* commands are swapped for local tools.
 {
-    "layer": "top", // Waybar will appear at the top of other windows. 
-    "position": "top", // Appears at the top of the screen. Possible values are top, right, bottom, left.
-    "modules-left": ["clock", "wlr/taskbar"],
-    "modules-center": ["hyprland/workspaces"],
-    "modules-right": ["cpu","memory","disk", "network", "pulseaudio", "tray","group/group-power"],
-    "custom/appmenu": {
-        	"format": "Menu {icon}",
-        	"format-icon": "󰻀",
-        	"rotate": 0,
-        	"on-click": "~/.config/waybar/runwofi.sh"
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "spacing": 0,
+  "height": 26,
+  "modules-left": ["custom/launcher", "hyprland/workspaces", "wlr/taskbar"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "tray",
+    "bluetooth",
+    "network",
+    "pulseaudio",
+    "cpu",
+    "memory",
+    "temperature",
+    "custom/gpu-temp",
+    "battery"
+  ],
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "default": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "0",
+      "active": "󱓻"
     },
-    "wlr/taskbar": {
-        	"format": "{icon}",
-        	"tooltip": true,
-        	"tooltip-format": "{title}",
-        	"on-click": "activate",
-        	"on-click-middle": "close",
-        	"active-first": false
-   	 },
-     "hyprland/workspaces": {
-		    "format": "{icon}",
-		    "format-icons": {
-//			        "1": "",
-//			        "2": "",
-//			        "3": "",
-//			        "4": "",
-//			        "5": "",
-//			        "6": "",
-//			        "7": "",
-//			        "8": "",
-//			        "9": "",
-//			        "10": "",
-			        "active": "",
-			        "default": ""
-    		},
-			"persistent-workspaces": {
-             		"eDP-1": [1, 2, 3, 4, 5],
-                    "DP-1": [6, 7, 8, 9, 10]
-    		}
+    "persistent-workspaces": {
+      "eDP-1": [1, 2, 3, 4, 5],
+      "DP-1": [6, 7, 8, 9, 10]
+    }
+  },
+  "custom/launcher": {
+    "format": "",
+    "on-click": "wofi --show drun",
+    "on-click-right": "kitty",
+    "tooltip-format": "Launcher\n\nRight-click: terminal"
+  },
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛",
+    "on-click": "kitty -e htop"
+  },
+  "memory": {
+    "interval": 5,
+    "format": " {percentage}%",
+    "tooltip-format": "RAM: {used:0.1f} / {total:0.1f} GiB",
+    "on-click": "kitty -e htop"
+  },
+  "temperature": {
+    // coretemp "Package id 0"; abs path survives hwmonN renumbering across boots
+    "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    "input-filename": "temp1_input",
+    "critical-threshold": 80,
+    "format": " {temperatureC}°",
+    "tooltip-format": "CPU: {temperatureC}°C",
+    "interval": 5
+  },
+  "custom/gpu-temp": {
+    "exec": "~/.config/waybar/scripts/gpu-temp.sh",
+    "return-type": "json",
+    "interval": 10
+  },
+  "clock": {
+    "locale": "en_US.UTF-8",
+    "format": "{:L%A %H:%M}",
+    "format-alt": "{:L%d %B W%V %Y}",
+    "tooltip": false
+  },
+  "network": {
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰤮",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)",
+    "tooltip-format-ethernet": "Connected",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "spacing": 1,
+    "on-click": "nm-connection-editor"
+  },
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-discharging": "{icon}",
+    "format-charging": "{icon}",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     },
-    "clock": {
-        	//"format": "{:%I:%H %p}",
-        	"format": "{:%A, %B %d, %Y | %R}",
-        	"rotate": 0,
-        	"format-alt": "{:%A, %B %d, %Y (%R)}",
-        	"tooltip-format": "<tt><big>{calendar}</big></tt>",
-        	"calendar": {
-            		"mode": "month",
-            		"format": {
-                	    "months": "<span color='#8caaee'><b>{}</b></span>",
-			    		"days": "<span color='#8caaee'><b>{}</b></span>",
-                	    "weekdays": "<span color='#ca9ee6'><b>{}</b></span>",
-                	    "today": "<span color='#ca9ee6'><b>{}</b></span>"
-            	        }
-               }
-    },
-    "cpu": {
-        	"format": "⧯ Cpu: {usage}%" ,
-        	"tooltip": true
-    },
-
-    "network": {
-        	"tooltip": true,
-        	"rotate": 0,
-        	"format-ethernet": "<span foreground='#242639'> {bandwidthDownBytes}</span>",
-        	"format-linked": "{ifname} (No IP)",
-        	"format-disconnected": "",
-        	"tooltip-format-disconnected": "Disconnected",
-        	"format-alt": " Up: {bandwidthUpBytes}",
-        	"interval": 2
-    },
-    "tray": {
-            "icon-size": 21,
-            "spacing": 10
-    },
-     "pulseaudio": {
-    		"format": "{volume}% {icon}",
-    		"format-bluetooth": "{volume}% {icon}",
-    		"format-muted": "",
-    		"format-icons": {
-        		"alsa_output.pci-0000_00_1f.3.analog-stereo": "",
-        		"alsa_output.pci-0000_00_1f.3.analog-stereo-muted": "",
-        		"headphone": "",
-        		"hands-free": "",
-        		"headset": "",
-        		"phone": "",
-        		"phone-muted": "",
-        		"portable": "",
-        		"car": "",
-        		"default": ["", ""]
-    		},
-    		"scroll-step": 3,
-    		"on-click": "pavucontrol",
-    		"ignored-sinks": ["Easy Effects Sink"]
-	},
-     "memory": {
-        	"interval": 5,
-        	"format": "󰍛  Mem: {}%",
-        	"max-length": 15
-    },
-	// A grouped module for all session buttons, like logout, shutdown, etc.
-	// Commands used are Hyprland specific. Check and replace commands for other desktops.
-    "group/group-power": {
-        	"orientation": "horizontal",
-        	"drawer": {
-            	"transition-duration": 500,
-            	"children-class": "not-power",
-            	"transition-left-to-right": false
-        	},
-        	"modules": [
-				// With "user" as the first icon, only this will be shown in normal cases.
-				// For other items like shutdown, quit, etc., hover over this user item.
-				// Those will be revealed. This is the purpose of grouped items.
-            	"user",
-            	"custom/shutdown",
-            	"custom/quit",
-            	"custom/lock",
-            	"custom/reboot"
-            ]
-    },
-    "custom/quit": {
-        	"format": "󰗼",
-        	"tooltip-format": "Exit",
-        	"on-click": "hyprctl dispatch exit"
-    },
-    "custom/lock": {
-        	"format": "󰍁",
-        	"tooltip-format": "Lock",
-			// Hyprlock is a lock tool for Hyprland. For this to work, a configuration file is needed.
-			// The location is ~/.config/hypr/hyprlock.conf
-			// Without this, the lock won't work.
-        	"on-click": "hyprlock"
-    },
-    "custom/reboot": {
-        	"format": "󰜉",
-        	"tooltip-format": "Reboot",
-        	"on-click": "reboot"
-    },
-    "custom/shutdown": {
-        	"format": "⏻",
-        	"tooltip-format": "Shutdown",
-        	"on-click": "shutdown now"
-    },
-    "disk": {
-    		"interval": 30,
-    		"format": " {used}",
-    		"unit": "GB",
-    		"tooltip-format": " {percentage_used}%"
-    },
-    "user": {
-    		"format": "{user}", //Prints the user name.
-        	"height": 20,
-        	"width": 20,
-        	"icon": true
-	}
-    		
+    "format-full": "󰂅",
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "on-click": "~/.config/waybar/scripts/power-menu.sh",
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+  "bluetooth": {
+    "format": "",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "format-no-controller": "",
+    "tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "blueman-manager"
+  },
+  "pulseaudio": {
+    "format": "{icon}",
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "headset": "",
+      "default": ["", "", ""]
+    }
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 14,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "active-first": false
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 17
+  }
 }

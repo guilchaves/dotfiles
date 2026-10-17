@@ -1,104 +1,126 @@
+/* Based on omarchy's default Waybar style (basecamp/omarchy v3.8.4).
+   Omarchy imports these from its theme; here they're Gruvbox Material Dark Hard,
+   matching kitty and Neovim. */
+@define-color foreground #d4be98;
+@define-color background #1d2021;
+@define-color red #ea6962;
+@define-color yellow #d8a657;
+
 * {
+  background-color: transparent;
+  color: @foreground;
+
   border: none;
   border-radius: 0;
-  font-family: 'Berkeley Mono';
-  font-weight: 400;
-  font-size: 11px;
-  min-height: 26px;
+  min-height: 0;
+  font-family: 'JetBrainsMono Nerd Font';
+  font-size: 12px;
 }
 
-window#waybar.top {
-  background-color: rgba(0, 0, 0, 0.42);
-  border-bottom: none;
-  color: #eeeeee;
-  transition-property: background-color;
-  transition-duration: .5s;
-}
-
-window#waybar.hidden {
-  opacity: 0.2;
-}
-
-label#window {
-  text-shadow: 0px 0px 3px #18181e;
+window#waybar {
+  background-color: alpha(@background, 0.75);
 }
 
 tooltip {
-  background: rgba(43, 48, 59, 0.5);
-  border: 1px solid rgba(100, 114, 125, 0.5);
+  background-color: @background;
 }
 
-tooltip label {
-  color: white;
+.modules-left {
+  margin-left: 8px;
 }
 
-.module {
-  margin: 0px 0px 0px 20px;
-}
-
-#bluetooth {
-  min-width: 32px;
-}
-
-#custom-audio-internal,
-#custom-audio-motu,
-#custom-audio-hdmi {
-  min-width: 32px;
-}
-
-
-#workspaces {
-  margin: 0px 0px 0px 0px;
+.modules-right {
+  margin-right: 8px;
 }
 
 #workspaces button {
-  padding: 4px 6px;
-  color: #ffffff;
-  border-radius:  0px;
-  min-width: 32px;
+  all: initial;
+  padding: 0 6px;
+  margin: 0 1.5px;
+  min-width: 9px;
 }
 
-/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-#workspaces button:hover {
-  box-shadow: inherit;
-  text-shadow: inherit;
-  background: transparent;
-  color: #ffffff;
-}
-
-#workspaces button.focused {
-  color: #eeeeee;
-}
-
-#workspaces button.focused:hover {
-  color: #ffffff;
+#workspaces button.empty {
+  opacity: 0.5;
 }
 
 #workspaces button.urgent {
-  color: #ffffff;
-  background-color: #e27878;
+  color: @red;
 }
 
-#language {
-  color: #cccccc;
+#cpu,
+#battery,
+#pulseaudio,
+#custom-launcher {
+  min-width: 12px;
+  margin: 0 7.5px;
+}
+
+#memory,
+#temperature,
+#custom-gpu-temp {
+  margin: 0 7.5px;
+}
+
+#temperature.critical,
+#custom-gpu-temp.critical {
+  color: @red;
+}
+
+#custom-gpu-temp.suspended {
+  opacity: 0.5;
+}
+
+#custom-gpu-temp.unavailable {
+  margin: 0;
+}
+
+#battery.warning {
+  color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
 }
 
 #tray {
-  background-color: rgba(0, 0, 0, 0);
+  margin-right: 16px;
 }
 
-#tray image {
-  margin: 0px 10px 0px 0px;
+#bluetooth {
+  margin-right: 17px;
+}
+
+#network {
+  margin-right: 13px;
+}
+
+#taskbar {
+  margin-left: 12px;
+}
+
+#taskbar button {
+  all: initial;
+  padding: 0 5px;
+  border-bottom: 2px solid transparent;
+}
+
+#taskbar button.active {
+  border-bottom-color: @foreground;
+}
+
+#taskbar button:hover {
+  background-color: alpha(@foreground, 0.1);
+}
+
+tooltip {
+  padding: 2px;
 }
 
 #clock {
-  margin-right: 4px;
+  margin-left: 8.75px;
 }
 
-#mode {
-  background-color: rgba(0, 0, 0, 0);
-  border: 2px solid #e2a478;
-  margin: 0px 10px 0px 0px;
-  border-radius: 5px;
+.hidden {
+  opacity: 0;
 }
-
