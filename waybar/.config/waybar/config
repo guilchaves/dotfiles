@@ -77,7 +77,16 @@
     "locale": "en_US.UTF-8",
     "format": "{:L%A %H:%M}",
     "format-alt": "{:L%d %B W%V %Y}",
-    "tooltip": false
+    "tooltip-format": "<tt><big>{calendar}</big></tt>",
+    "calendar": {
+      "mode": "month",
+      "format": {
+        "months": "<span color='#d8a657'><b>{}</b></span>",
+        "days": "<span color='#d4be98'><b>{}</b></span>",
+        "weekdays": "<span color='#e78a4e'><b>{}</b></span>",
+        "today": "<span color='#ea6962'><b><u>{}</u></b></span>"
+      }
+    }
   },
   "network": {
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
