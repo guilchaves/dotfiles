@@ -50,8 +50,7 @@ tooltip {
 
 #cpu,
 #battery,
-#pulseaudio,
-#custom-launcher {
+#pulseaudio {
   min-width: 12px;
   margin: 0 7.5px;
 }
